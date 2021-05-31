@@ -11,7 +11,9 @@
 
 from shapely.geometry import Point, LineString, Polygon
 #YOUR CODE HERE 1 to define create_point_geom()
-
+def  create_point_geom(x,y):
+  p = Point(x,y)
+  return p
 # Test your function by running these code cells:
 
 # CODE FOR TESTING YOUR SOLUTION
@@ -27,12 +29,23 @@ print(point1.geom_type)
 # 
 
 # YOUR CODE HERE 2 to define create_line_geom()
+def create_line_geom(points):
+  assert type(points) == list , "Input should be a list!"
+  assert len(points)>=2 , "LineString object requires at least two Points!"
+  for i in points:
+    assert i.geom_type == "Point", "All list values should be Shapely Point objects!"
+  lineobject = LineString([points[0],points[1]])
+  return lineobject
+
 
 # Demonstrate the usage of your function; For example, create a line object with two points: `Point(45.2, 22.34)` & `Point(100.22, -3.20)` and store the result in a variable called `line1`:
 
 line1 = None
 # YOUR CODE HERE 3 to define two points and store the result in line1
-
+point1 = create_point_geom(45.2, 22.34)
+point2 = create_point_geom(100.22, -3.20)
+point = [point1,point2]
+line1 = create_line_geom(point)
 
 # CODE FOR TESTING YOUR SOLUTION
 print(line1)
@@ -63,11 +76,18 @@ except Exception as e:
 
 
 # YOUR CODE HERE 4 to define create_poly_geom()
-
+def create_poly_geom(coodrs):
+  assert type(coodrs) == list , "Input should be a list!"
+  assert len(coodrs)>=3 , "Polygon object requires at least three Points!"
+  for i in coodrs:
+    assert type(i) == tuple, "All list values should be coordinate tuples!"
+  pol1 = Polygon(coodrs)
+  return pol1
+  
 # Demonstrate the usage of the function. For example, create a Polygon with three points: `(45.2, 22.34)`, `(100.22, -3.20)` & `(70.0, 10.20)`.
 
 # YOUR CODE HERE 5 to define poly1 with three points
-poly1 = 
+poly1 = create_poly_geom([(45.2, 22.34),(100.22, -3.20),(70.0, 10.20)])
 
 # CODE FOR TESTING YOUR SOLUTION
 print(poly1)
