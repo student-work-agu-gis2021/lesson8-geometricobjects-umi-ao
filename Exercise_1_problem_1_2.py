@@ -13,6 +13,9 @@ from shapely.geometry import Point, LineString, Polygon
 #YOUR CODE HERE 1 to define create_point_geom()
 def  create_point_geom(x,y):
   """description of create_point_geom function"""
+  ##this function create a shapely `Point` geometry object and return that and has two parameters
+
+  #create a shapely `Point` geometry object
   p = Point(x,y)
   return p
 # Test your function by running these code cells:
@@ -32,10 +35,17 @@ print(point1.geom_type)
 # YOUR CODE HERE 2 to define create_line_geom()
 def create_line_geom(points):
   """description of create_line_geom function"""
+  ## this function takes a list of Shapely Point objects 
+  ##and returns a LineString object of those input points.
+
+  ## Exclude non-list types
   assert type(points) == list , "Input should be a list!"
+  ## check the input list contains at least two values.
   assert len(points)>=2 , "LineString object requires at least two Points!"
+  ## check all values in the input list are truly Shapely Points.
   for i in points:
     assert i.geom_type == "Point", "All list values should be Shapely Point objects!"
+  ## convert type LineString
   lineobject = LineString([points[0],points[1]])
   return lineobject
 
@@ -44,9 +54,11 @@ def create_line_geom(points):
 
 line1 = None
 # YOUR CODE HERE 3 to define two points and store the result in line1
+##define two points
 point2 = create_point_geom(45.2, 22.34)
 point3 = create_point_geom(100.22, -3.20)
 point = [point1,point2]
+##store the result in line1
 line1 = create_line_geom(point)
 
 # CODE FOR TESTING YOUR SOLUTION
@@ -80,16 +92,22 @@ except Exception as e:
 # YOUR CODE HERE 4 to define create_poly_geom()
 def create_poly_geom(coodrs):
   """description of create_poly_geom function"""
+  ##coords parameter should containt a list of coordinate tuples. The function should create and return a Polygon object based on these coordinates.
+   ## Exclude non-list types
   assert type(coodrs) == list , "Input should be a list!"
+  ##check that the input list contains at least three values.
   assert len(coodrs)>=3 , "Polygon object requires at least three Points!"
+  ##check all values in the input list is  tuples or not.
   for i in coodrs:
     assert type(i) is tuple, "All list values should be coordinate tuples!"
+  ## convert pokygon type
   pol1 = Polygon(coodrs)
   return pol1
   
 # Demonstrate the usage of the function. For example, create a Polygon with three points: `(45.2, 22.34)`, `(100.22, -3.20)` & `(70.0, 10.20)`.
 
 # YOUR CODE HERE 5 to define poly1 with three points
+##define poly1 with three points
 poly1 = create_poly_geom([(45.2, 22.34),(100.22, -3.20),(70.0, 10.20)])
 
 # CODE FOR TESTING YOUR SOLUTION
@@ -121,8 +139,12 @@ except Exception as e:
 # 
 
 #  YOUR CODE HERE 6 to define get_centroid()
+
 def get_centroid(geom):
   """description of get_centroid function"""
+  ## this function should take any kind of Shapely's geometric -object as an input, and return a centroid of that geometry
+
+  ## check type of geom
   assert type(geom) not in [str,int,float,bool,list,tuple]
   assert geom.geom_type in  ['Point','LineString','Polygon'],"Input should be a Shapely geometry!"
   geometriccenter = geom.centroid
@@ -157,6 +179,8 @@ except Exception as e:
 # YOUR CODE HERE 8 to define get_area()
 def get_area(polygon):
   """description of get_area function"""
+  ##this function should take a Shapely's Polygon -object as input and returns the area of that geometry.
+  ## check type of polygon
   assert type(polygon) not in [str,int,float,bool,list,tuple],"'geom' should be either LineString or Polygon!"
   assert polygon.geom_type == 'Polygon' ,"Input should be a Shapely Polygon -object!"
   return polygon.area 
@@ -186,7 +210,9 @@ except Exception as e:
 #  YOUR CODE HERE 9 to define get_length()
 def get_length(geom):
   """description of get_length function"""
+  ##thosfFunction check the type of the input and returns the length of the line if input is LineString and length of the exterior ring if input is Polygon.
   assert type(geom) not in [str,int,float,bool,list,tuple],"'geom' should be either LineString or Polygon!"
+  ## check geom type is linestring or polygon
   if geom.geom_type == 'LineString':
         return geom.length
   elif geom.geom_type == 'Polygon':
