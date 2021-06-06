@@ -13,6 +13,7 @@
 import pandas as pd 
 
 #Check how many rows and columns there are:
+## reading a data of travelTimes_2015_Helsinki.txt
 data = pd.read_csv("data/travelTimes_2015_Helsinki.txt",sep=';')
 
 # CODE FOR TESTING YOUR SOLUTION
@@ -25,6 +26,7 @@ print(data.head())
 # 
 
 # YOUR CODE HERE 2 to set `data`
+##select the 4 cplumns that contain coordinate information ('from_x', 'from_y', 'to_x', 'to_y') 
 data = data.loc[:,['from_x', 'from_y','to_x', 'to_y']]
 # CODE FOR TESTING YOUR SOLUTION
 print(list(data.columns))
@@ -34,6 +36,7 @@ print(list(data.columns))
 # 
 
 # YOUR CODE HERE 3 to define empty lists orig_points and dest_points
+## define empty lists orig_points and dest_points
 orig_points = []
 dest_points = []
 # CODE FOR TESTING YOUR SOLUTION
@@ -70,9 +73,11 @@ print('dest_points length:', len(dest_points))
 # YOUR CODE HERE 4 to append points in orig_points and dest_points
 
 from shapely.geometry import Point
-
+## append points in orig_points and dest_points
 for index, row in data.iterrows():
+  ## convert "row['from_x'], row['from_y']" to type of Point
     orig = Point(row['from_x'], row['from_y'])
+   ## convert "row['to_x'], row['to_y']" to type of Point
     dest = Point(row['to_x'], row['to_y'])
     orig_points.append(orig)
     dest_points.append(dest)
@@ -101,6 +106,7 @@ assert len(dest_points) == len(data), "Number of destination points must be the 
 # 
 
 # YOUR CODE HERE 5
+##Create a empty list called `lines`
 lines = []
 
 # CODE FOR TESTING YOUR SOLUTION
@@ -121,6 +127,7 @@ print('lines length:', len(lines))
 # YOUR CODE HERE 6 to append LineString to lines
 #raise NotImplementedError()
 from shapely.geometry import LineString
+## create a Shapely LineString -object for each origin and destination pair
 for orig, dest in zip(orig_points, dest_points):
     line = LineString([orig, dest])
     lines.append(line)
@@ -136,7 +143,9 @@ assert len(lines) == len(data), "There should be as many lines as there are rows
 # 
 
 # YOUR CODE HERE 7 to find total length
+# define new variable "total_length"
 total_length = 0
+# culculate total length of all line 
 for line in lines:
     total_length = total_length +line.length
 # CODE FOR TESTING YOUR SOLUTION
@@ -155,16 +164,21 @@ print("Total length of all lines is", round(total_length, 2))
 # **Note: avoid using the same variable names as earlier inside your functions!** Functions are often defined at the top of the script file (or jupyter notebook), and now that we have them here at the very end you might accidentally alter an existing variable inside your functions. To avoid this, alter the variable names inside your own functions if you re-use code from this notebook. 
 
 # YOUR CODE HERE 8 to define create_od_lines() and calculate_total_distance()
+#Takes two lists of Shapely Point -objects as input and returns a list of LineStrings
 def  create_od_lines(orig, dest):
+##define new variable lin that is empty list 
      lin = []
+     ## create a Shapely LineString -object for each origin and destination pair
      for a, b in zip(orig, dest):
        lin1 = LineString([a,b])
        lin.append(lin1)
 
      return lin
-
+##Takes a list of LineString geometries as input and returs their total length
 def calculate_total_distance(dis):
+ ##define new variable total 
     total = 0
+    ### culculate total length of all line 
     for line in dis:
        total = total +line.length
     return total
