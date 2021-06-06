@@ -12,6 +12,7 @@
 from shapely.geometry import Point, LineString, Polygon
 #YOUR CODE HERE 1 to define create_point_geom()
 def  create_point_geom(x,y):
+  """description of create_point_geom function"""
   p = Point(x,y)
   return p
 # Test your function by running these code cells:
@@ -30,6 +31,7 @@ print(point1.geom_type)
 
 # YOUR CODE HERE 2 to define create_line_geom()
 def create_line_geom(points):
+  """description of create_line_geom function"""
   assert type(points) == list , "Input should be a list!"
   assert len(points)>=2 , "LineString object requires at least two Points!"
   for i in points:
@@ -77,6 +79,7 @@ except Exception as e:
 
 # YOUR CODE HERE 4 to define create_poly_geom()
 def create_poly_geom(coodrs):
+  """description of create_poly_geom function"""
   assert type(coodrs) == list , "Input should be a list!"
   assert len(coodrs)>=3 , "Polygon object requires at least three Points!"
   for i in coodrs:
@@ -91,7 +94,7 @@ poly1 = create_poly_geom([(45.2, 22.34),(100.22, -3.20),(70.0, 10.20)])
 
 # CODE FOR TESTING YOUR SOLUTION
 print(poly1)
-print(type(poly1))
+
 # CODE FOR TESTING YOUR SOLUTION
 print(poly1.geom_type)
 
@@ -119,21 +122,19 @@ except Exception as e:
 
 #  YOUR CODE HERE 6 to define get_centroid()
 def get_centroid(geom):
-  assert type(geom) != str
-  assert geom.geom_type in ['Point','LineString','Polygon'],"Input should be a Shapely geometry!"
+  """description of get_centroid function"""
+  assert type(geom) not in [str,int,float,bool,list,tuple]
+  assert geom.geom_type in  ['Point','LineString','Polygon'],"Input should be a Shapely geometry!"
   geometriccenter = geom.centroid
   return geometriccenter
 # Test and demonstrate the usage of the function. You can, for example, create shapely objects using the functions you created in problem 1 and print out information about their centroids:
 # 
-
 #  YOUR CODE HERE 7 to define some objects
-point4 = create_point_geom(0, 0)
-point5 = create_point_geom(100, 0)
-point6 = create_point_geom(0, 100)
-point7 = create_point_geom(100, 100)
+poly1 = create_poly_geom([(45.2, 22.34),(100.22, -3.20),(70.0, 10.20)])
 
-poly1 = create_poly_geom([(0, 0),(100, 0),(0, 100),(100, 100)])
 # CODE FOR TESTING YOUR SOLUTION
+print(poly1)
+
 centroid = get_centroid(poly1)
 print(centroid)
 
@@ -142,6 +143,7 @@ print(centroid)
 try:
     # Pass something else than a Shapely geometry
     get_centroid("Give me a centroid!")
+    
 except AssertionError:
     print("Found and assertion error. Geometry -check works correctly.")
 except Exception as e:
@@ -153,7 +155,11 @@ except Exception as e:
 #    - Inside the function, you should first check with `assert` -functionality that the input is a Shapely Polygon geometry (see [lesson 6](https://geo-python.github.io/site/lessons/L6/interpreting-errors.html#assertions) and [hints](https://automating-gis-processes.github.io/site/develop/lessons/L1/exercise-1.html#hints)). If something else than a list is passed for the function, you should return an Error message: `"Input should be a Shapely Polygon -object!"`
 
 # YOUR CODE HERE 8 to define get_area()
-
+def get_area(polygon):
+  """description of get_area function"""
+  assert type(polygon) not in [str,int,float,bool,list,tuple],"'geom' should be either LineString or Polygon!"
+  assert polygon.geom_type == 'Polygon' ,"Input should be a Shapely Polygon -object!"
+  return polygon.area 
 # Test and demonstrate the usage of the function:
 get_area(poly1)
 
@@ -178,7 +184,13 @@ except Exception as e:
 
 
 #  YOUR CODE HERE 9 to define get_length()
-
+def get_length(geom):
+  """description of get_length function"""
+  assert type(geom) not in [str,int,float,bool,list,tuple],"'geom' should be either LineString or Polygon!"
+  if geom.geom_type == 'LineString':
+        return geom.length
+  elif geom.geom_type == 'Polygon':
+        return geom.exterior.length
 # Test and demonstrate the usage of the function:
 
 get_length(poly1)
@@ -209,7 +221,7 @@ except Exception as e:
 # Did you add a docstring to all the functions you defined? If not, add them now :) A short one-line docstring is enough in this exercise.
 
 # YOUR ANSWER HERE
-
+## Yes!! I added docstring.
 # In addition, you can run the code cell below to check all the docstrings!
 
 # CODE FOR TESTING YOUR SOLUTION
